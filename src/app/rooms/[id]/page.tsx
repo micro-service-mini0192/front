@@ -4,21 +4,21 @@ import { useEffect, useState, useRef, RefObject } from 'react';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { useParams, useSearchParams } from 'next/navigation';
-import { FindByIdRoomDto } from '@/type/room';
-import { findByIdRoom } from '@/api/findByIdRoom';
+import { RoomFindByIdDto } from '@/type/room';
+import roomFindByIdAPI from '@/api/RoomfindByIdAPI';
 
 interface Message {
   id: number;
   message: string;
 }
 
-export default function ChatUI() {
+export default function RoomFindById() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const stompClient: RefObject<Client | null> = useRef<Client | null>(null);
 
-  const [room, setRoom] = useState<FindByIdRoomDto>();
+  const [room, setRoom] = useState<RoomFindByIdDto>();
   const [loading, setLoading] = useState<boolean>(false);
 
   const params = useParams();
@@ -28,7 +28,7 @@ export default function ChatUI() {
     setLoading(true);
     setError(null);
     try {
-      const data = await findByIdRoom(id);
+      const data = await roomFindByIdAPI(id);
       setRoom(data);
     } catch (err) {
       setError('Failed to fetch rooms');
@@ -80,7 +80,7 @@ export default function ChatUI() {
     };
   }, [id]); // id 값이 변경될 때마다 실행
 
-  const handleSendMessage = () => {
+  const submit = () => {
     if (!input.trim()) return;
 
     const newMessage: Message = {
@@ -99,21 +99,12 @@ export default function ChatUI() {
   };
 
   return (
-    <div style={{ padding: '20px', maxWidth: '600px', margin: '0 auto' }}>
+    <div>
       <div>
-        {error && <div style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
+        {error && <div>{error}</div>}
         {messages.map((message) => (
-          <div key={message.id} style={{ marginBottom: '10px' }}>
-            <div
-              style={{
-                padding: '8px 12px',
-                marginBottom: '5px',
-                borderRadius: '5px',
-                backgroundColor: '#3e3e3e',
-                maxWidth: '60%',
-                wordWrap: 'break-word',
-              }}
-            >
+          <div key={message.id}>
+            <div>
               {message.message}
             </div>
           </div>
@@ -125,10 +116,9 @@ export default function ChatUI() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="메시지를 입력하세요..."
-          style={{ padding: '10px', width: '80%', marginRight: '10px' }}
           autoFocus
         />
-        <button onClick={handleSendMessage} style={{ padding: '10px', cursor: 'pointer' }}>
+        <button onClick={submit} style={{ padding: '10px', cursor: 'pointer' }}>
           전송
         </button>
       </div>

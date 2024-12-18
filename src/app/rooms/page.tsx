@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import { FindAllRoomDto } from '@/type/room';
-import { findAllRoom } from '@/api/findAllRoom';
+import { RoomFindAllDto } from '@/type/room';
 import Link from 'next/link';
+import roomFindAllAPI from '@/api/RoomfindAllAPI';
 
-export default function FindAll() {
-  const [rooms, setRooms] = useState<FindAllRoomDto[]>([]);
+export default function RoomFindAll() {
+  const [rooms, setRooms] = useState<RoomFindAllDto[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -14,11 +14,10 @@ export default function FindAll() {
     setLoading(true);
     setError(null);
     try {
-      const roomsData = await findAllRoom();
-      setRooms(roomsData);
+      const data: RoomFindAllDto[] = await roomFindAllAPI();
+      setRooms(data);
     } catch (err) {
       setError('Failed to fetch rooms');
-      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -29,24 +28,17 @@ export default function FindAll() {
   }, []);
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div>
       <h1>Room List</h1>
       {loading && <p>Loading...</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p>{error}</p>}
       <div>
         {rooms.length > 0 ? (
           <ul>
             {rooms.map((room) => (
-              <li key={room.id} style={{ marginBottom: '15px' }}>
-                <div
-                  style={{
-                    border: '1px solid #ccc',
-                    padding: '15px',
-                    borderRadius: '5px',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <Link href={`/rooms/${ room.id }`}>{room.roomName}</Link>
+              <li key={room.id}>
+                <div>
+                  <Link href={`/rooms/${ room.id }`}>{ room.roomName }</Link>
                   <p>ID: { room.id }</p>
                 </div>
               </li>
@@ -56,18 +48,7 @@ export default function FindAll() {
           <p>No rooms available</p>
         )}
       </div>
-      <Link
-        href={`/create-room`}
-        style={{
-          marginTop: '20px',
-          padding: '10px 20px',
-          backgroundColor: '#4CAF50',
-          color: 'white',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: 'pointer',
-        }}
-      >
+      <Link href={`/saveRooms`}>
         Create Room
       </Link>
     </div>
