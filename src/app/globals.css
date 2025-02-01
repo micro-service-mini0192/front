@@ -140,3 +140,14 @@ input {
 .inline {
   display: inline-box;
 }
+
+button {
+  outline: none;
+  box-shadow: none;
+}
+
+button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
