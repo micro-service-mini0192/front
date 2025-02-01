@@ -9,16 +9,17 @@ import roomFindByIdAPI from '@/api/RoomfindByIdAPI';
 import { useForm } from "react-hook-form";
 import { Button, Input } from '@nextui-org/react';
 
-interface GetMessage {
+type GetMessage = {
   roomId: number;
   message: string;
+  createAt: string;
   member: {
-    id: number;
+    memberId: number;
     nickname: string;
   }
 }
 
-interface SendMessage {
+type SendMessage = {
   roomId: number;
   message: string;
 }
@@ -28,7 +29,7 @@ export default function RoomFindById() {
   const [error, setError] = useState<string | null>(null);
   const stompClient: RefObject<Client | null> = useRef<Client | null>(null);
 
-  const { register, handleSubmit, setValue } = useForm<SendMessage>();
+  const { register, handleSubmit, setValue, reset } = useForm<SendMessage>();
 
   const [room, setRoom] = useState<RoomFindByIdDto>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -87,8 +88,9 @@ export default function RoomFindById() {
               {
                 roomId: receivedMessage.roomId,
                 message: receivedMessage.message,
+                createAt: receivedMessage.createAt,
                 member: {
-                  id: receivedMessage.member.id,
+                  memberId: receivedMessage.member.memberId,
                   nickname: receivedMessage.member.nickname
                 }
               },
@@ -126,14 +128,20 @@ export default function RoomFindById() {
   const onSubmit = (data: SendMessage) => {
     data.roomId = id;
     if (stompClient.current && jwt) {
-      stompClient.current.publish({
-        destination: '/app/chat.sendMessage',
-        body: JSON.stringify(data),
-        headers: {
-          Authorization: jwt,  // 전송 시 헤더에 JWT 포함
-        }
-      });
-      setValue("message", ""); // 전송 후 입력값 초기화
+      try {
+        stompClient.current.publish({
+          destination: '/app/chat.sendMessage',
+          body: JSON.stringify(data),
+          headers: {
+            Authorization: jwt,  // 전송 시 헤더에 JWT 포함
+          }
+        });
+      } catch (error) {
+        console.error("Error while publishing the message:", error);
+        alert("메시지를 전송하는 중 오류가 발생했습니다. 다시 시도해주세요.");
+      }
+      
+      reset();// 전송 후 입력값 초기화
     }
   };
 
@@ -142,10 +150,11 @@ export default function RoomFindById() {
       <div className="box inline" style={{ width: "500px" }}>
         {error && <div>{error}</div>}
         {messages.map((message, index) => (
-          <div key={index}>
-            <p>{message.member.nickname}</p>
-            <p>{message.message}</p>
-          </div>
+          <div key={index} className="message">
+          <p className="nickname">{message.member.nickname}</p>
+          <p className="message-content">{message.message}</p>
+          <p className="timestamp">{new Date(message.createAt).toLocaleString()}</p>
+        </div>
         ))}
       </div>
       <div>
@@ -153,10 +162,10 @@ export default function RoomFindById() {
           <Input
             style={{ width: "400px" }}
             type="text"
-            label="Message"
+            placeholder="MESSAGE"
             {...register("message")}
           />
-          <Button type="submit" disabled={loading} className='main-button'>
+          <Button type="submit" disabled={loading} className='button'>
             Send
           </Button>
         </form>

@@ -36,13 +36,12 @@ h3 {
   font-weight: bold;
 }
 
-p {
-  font-size: 15px;
+.sub {
+  color: #c1c1c1;
 }
 
-.p-sub {
+p {
   font-size: 15px;
-  color: #c1c1c1;
 }
 
 a {
@@ -81,14 +80,6 @@ nav a {
   min-height: 100vh;
 }
 
-
-label {
-  display: inline-block;
-  justify-content: left;
-  text-align: left;
-  font-weight: bold;
-}
-
 input {
   border-radius: 10px;
   padding: 8px 12px;
@@ -97,35 +88,6 @@ input {
   width: 40%;
 }
 
-.main-button, .sub-button {
-  width: 150px;
-  color: white;
-  border: none;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin: 5px;
-  text-align: center;
-  text-decoration: none; 
-  display: inline-block;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-weight: bold;
-}
-
-.main-button {
-  background-color: rgb(142, 142, 142);
-}
-.main-button:hover {
-  background-color: rgba(142, 142, 142, 0.5);
-}
-
-.sub-button {
-  background-color: rgb(85, 85, 85);
-}
-.sub-button:hover {
-  background-color: rgb(85, 85, 85, 0.5);
-}
 
 .box {
   width: 50%;
@@ -137,17 +99,110 @@ input {
   color: white;
 }
 
-.inline {
-  display: inline-box;
+
+.message {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-button {
+.message p {
+  margin: 5px 0;
+}
+
+.message .nickname {
+  font-weight: bold;
+  color: white;
+}
+
+.message .message-content {
+  font-size: 14px;
+  color: #c1c1c1;
+}
+
+.message .timestamp {
+  font-size: 12px;
+  color: #c1c1c1;
+}
+
+
+/* RoomList.module.css */
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.3);;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.findAllRoom-loading {
+  text-align: center;
+  color: #c1c1c1;
+  font-size: 18px;
+}
+
+.findAllRoom-error {
+  text-align: center;
+  color: #d9534f;
+  font-size: 18px;
+}
+
+.findAllRoom-roomList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.findAllRoom-roomItem {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #c1c1c1;
+  padding-bottom: 10px;
+  font-size: 18px;
+}
+
+.findAllRoom-roomLinkWrapper {
+  margin: 0 20px;
+}
+
+.findAllRoom-roomLink {
+  font-size: 18px;
+  text-decoration: none;
+  color: rgb(142, 142, 142);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.findAllRoom-roomLink:hover {
+  color: rgba(142, 142, 142, 0.5);
+}
+
+.findAllRoom-noRoomsText {
+  text-align: center;
+  font-size: 18px;
+  color: #c1c1c1;
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: rgb(142, 142, 142, 0.5);
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+
   outline: none;
   box-shadow: none;
+  border: none;
+  display: inline-block;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-button:focus {
-  outline: none;
-  box-shadow: none;
+.button:hover {
+  background-color: rgba(142, 142, 142, 0.5);
 }
-

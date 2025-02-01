@@ -29,23 +29,23 @@ export default function Login() {
         >
           <Input
             type="text"
-            label="USERNAME"
+            placeholder="USERNAME"
             {...register("username")}
           />
 
           <Input
             type="password"
-            label="PASSWORD"
+            placeholder="PASSWORD"
             {...register("password")}
           />
 
           <Input
             type="text"
-            label="NICKNAME"
+            placeholder="NICKNAME"
             {...register("nickname")}
           />
 
-          <Button type="submit" className="main-button">
+          <Button type="submit" className="button">
             Join
           </Button>
         </form>

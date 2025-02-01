@@ -31,19 +31,19 @@ export default function Login() {
         >
           <Input
             type="text"
-            label="USERNAME"
+            placeholder="USERNAME"
             {...register("username")}
           />
           <Input
             type="password"
-            label="PASSWORD"
+            placeholder="PASSWORD"
             {...register("password")}
           />
 
-          <Button type="submit" className="main-button inline">
+          <Button type="submit" className="button inline" style={{margin: "5px"}}>
             Login
           </Button>
-          <Link href={`/join`} className="sub-button inline">
+          <Link href={`/join`} className="button inline" style={{margin: "5px"}}>
             Join
           </Link>
         </form>

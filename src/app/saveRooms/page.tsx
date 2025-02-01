@@ -4,7 +4,6 @@ import roomSaveAPI from '@/api/RoomSaveAPI';
 import { RoomSaveDto } from '@/type/room';
 import { Button, Input } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 export default function RoomSave() {
@@ -21,18 +20,18 @@ export default function RoomSave() {
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Save Room</h1>
       <form
         onSubmit={ handleSubmit(onSubmit) }
       >
         <Input
           type="text"
-          label="ROOM NAME"
+          placeholder='ROOM NAME'
           {...register("roomName")}
         />
 
-        <Button type="submit">
+        <Button type="submit" className="button">
           Create Room
         </Button>
       </form>
