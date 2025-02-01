@@ -28,29 +28,30 @@ export default function RoomFindAll() {
   }, []);
 
   return (
-    <div>
-      <h1>Room List</h1>
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      <div>
-        {rooms.length > 0 ? (
-          <ul>
-            {rooms.map((room) => (
-              <li key={room.id}>
-                <div>
-                  <Link href={`/rooms/${ room.id }`}>{ room.roomName }</Link>
-                  <p>ID: { room.id }</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No rooms available</p>
-        )}
+    <div className="mid">
+      <div className="box inline">
+        <h1>Room List</h1>
+        {loading && <p>Loading...</p>}
+        {error && <p>{error}</p>}
+        <div>
+          {rooms.length > 0 ? (
+            <ul>
+              {rooms.map((room) => (
+                <li key={room.id}>
+                  <div style={{margin: "20px"}}>
+                    <Link href={`/rooms/${ room.id }`}>{ room.roomName }</Link>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No rooms available</p>
+          )}
+        </div>
+        <Link href={`/saveRooms`} className="main-button">
+          Create Room
+        </Link>
       </div>
-      <Link href={`/saveRooms`}>
-        Create Room
-      </Link>
     </div>
   );
 }

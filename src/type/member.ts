@@ -7,5 +7,6 @@ export type MemberLoginDto = {
 export type MemberJoinDto = {
   username: string;
   password: string;
+  nickname: string;
 };
     

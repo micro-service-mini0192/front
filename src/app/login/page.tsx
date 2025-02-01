@@ -2,52 +2,52 @@
 
 import memberLoginAPI from "@/api/MemberLoginAPI";
 import { MemberLoginDto } from "@/type/member";
+import { Button, Input } from "@nextui-org/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const route = useRouter();
+  const { register, handleSubmit } = useForm<MemberLoginDto>();
 
-  const submit = async () => {
-    try {
-      const data: MemberLoginDto = {
-        username: username,
-        password: password
+  const onSubmit = async (data: MemberLoginDto) => {
+      if(!data) return;
+      try {
+        const response = await memberLoginAPI(data);
+        localStorage.setItem('jwt', response.headers.authorization)
+        route.push("/");
+      } catch (error) {
+        console.log(error);
       }
-      const response = await memberLoginAPI(data);
-      localStorage.setItem('jwt', response.headers.authorization)
-      console.log(response);
-      route.push("/");
-    } catch (error) {
-      alert("Login fail");
-      console.log(error);
     }
-  }
 
   return (
-    <div>
-      <h1>Login</h1>
-      <input
-        type="text"
-        placeholder="USERNAME"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <br/>
-      <input
-        type="text"
-        placeholder="PASSWORD"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <br/>
-      <button onClick={submit}>Login</button>
-      <Link href={`/join`}>
-        Join
-      </Link>
+    <div className="mid">
+      <div className="box">
+        <h1>LOGIN</h1>
+        <form
+          onSubmit={ handleSubmit(onSubmit) }
+        >
+          <Input
+            type="text"
+            label="USERNAME"
+            {...register("username")}
+          />
+          <Input
+            type="password"
+            label="PASSWORD"
+            {...register("password")}
+          />
+
+          <Button type="submit" className="main-button inline">
+            Login
+          </Button>
+          <Link href={`/join`} className="sub-button inline">
+            Join
+          </Link>
+        </form>
+      </div>
     </div>
   );
 }

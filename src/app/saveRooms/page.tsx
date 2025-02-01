@@ -2,23 +2,20 @@
 
 import roomSaveAPI from '@/api/RoomSaveAPI';
 import { RoomSaveDto } from '@/type/room';
+import { Button, Input } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 export default function RoomSave() {
-  const [roomName, setRoomName] = useState('');
   const route = useRouter();
+  const { register, handleSubmit } = useForm<RoomSaveDto>();
 
-  const submit = async () => {
+  const onSubmit = async (data: RoomSaveDto) => {
     try {
-      const data: RoomSaveDto = {
-          roomName: roomName
-      };
       await roomSaveAPI(data);
-      alert("Create successful");
       route.back();
     } catch (error) {
-      alert("Create fail");
       console.log(error);
     }
   };
@@ -26,13 +23,19 @@ export default function RoomSave() {
   return (
     <div>
       <h1>Save Room</h1>
-      <input
-        type="text"
-        placeholder="Room Name"
-        value={roomName}
-        onChange={(e) => setRoomName(e.target.value)}
-      />
-      <button onClick={submit}>Save Room</button>
+      <form
+        onSubmit={ handleSubmit(onSubmit) }
+      >
+        <Input
+          type="text"
+          label="ROOM NAME"
+          {...register("roomName")}
+        />
+
+        <Button type="submit">
+          Create Room
+        </Button>
+      </form>
     </div>
   );
 }

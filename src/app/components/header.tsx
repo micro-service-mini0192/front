@@ -6,20 +6,20 @@ export default function HeaderUI() {
   return (
     <header>
       <nav>
-        <ul>
-          <li>
-            <Link href="/">Home</Link>
-          </li>
-          <li>
-            <Link href="/rooms">Room</Link>
-          </li>
-          <li>
-            <Link href="/login">Login</Link>
-          </li>
-        </ul>
+        <div className="header">
+          <ul>
+            <li>
+              <Link href="/">Home</Link>
+            </li>
+            <li>
+              <Link href="/rooms">Room</Link>
+            </li>
+            <li>
+              <Link href="/login">Login</Link>
+            </li>
+          </ul>
+        </div>
       </nav>
-      <hr/>
-      <br/>
     </header>
   );
 }

@@ -1,13 +1,9 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.header {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: rgba(0,0,0,0.2);
 }
 
 html,
@@ -17,26 +13,130 @@ body {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: white;
+  background: #383838;
+  text-align: center;
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-* {
-  box-sizing: border-box;
+h1 {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+p {
+  font-size: 15px;
+}
+
+.p-sub {
+  font-size: 15px;
+  color: #c1c1c1;
+}
+
+a {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
   padding: 0;
   margin: 0;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+nav li {
+  margin-right: 20px;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+nav a {
+  text-decoration: none;
+  color: white;
+}
+
+
+
+.mid {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+
+label {
+  display: inline-block;
+  justify-content: left;
+  text-align: left;
+  font-weight: bold;
+}
+
+input {
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin: 20px;
+  border: 1px solid #ccc;
+  width: 40%;
+}
+
+.main-button, .sub-button {
+  width: 150px;
+  color: white;
+  border: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: 5px;
+  text-align: center;
+  text-decoration: none; 
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.main-button {
+  background-color: rgb(142, 142, 142);
+}
+.main-button:hover {
+  background-color: rgba(142, 142, 142, 0.5);
+}
+
+.sub-button {
+  background-color: rgb(85, 85, 85);
+}
+.sub-button:hover {
+  background-color: rgb(85, 85, 85, 0.5);
+}
+
+.box {
+  width: 50%;
+  padding: 300px;
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 16px;
+  color: white;
+}
+
+.inline {
+  display: inline-box;
 }

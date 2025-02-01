@@ -1,47 +1,55 @@
 'use client'
 
 import memberJoinAPI from "@/api/MemberJoinAPI";
+import { Button, Input } from "@nextui-org/react";
 import { MemberJoinDto } from "@/type/member";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export default function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const route = useRouter();
+  const { register, handleSubmit } = useForm<MemberJoinDto>();
 
-  const submit = async () => {
+  const onSubmit = async (data: MemberJoinDto) => {
+    if(!data) return;
     try {
-      const data: MemberJoinDto = {
-        username: username,
-        password: password
-      }
       await memberJoinAPI(data);
       route.push("/login");
     } catch (error) {
-      alert("Join fail");
       console.log(error);
     }
   }
 
   return (
-    <div>
-      <h1>Join</h1>
-      <input
-        type="text"
-        placeholder="USERNAME"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <br/>
-      <input
-        type="text"
-        placeholder="PASSWORD"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <br/>
-      <button onClick={submit}>Join</button>
+    <div className="mid">
+      <div className="box inline">
+        <h1>JOIN</h1>
+        <form
+          onSubmit={ handleSubmit(onSubmit) }
+        >
+          <Input
+            type="text"
+            label="USERNAME"
+            {...register("username")}
+          />
+
+          <Input
+            type="password"
+            label="PASSWORD"
+            {...register("password")}
+          />
+
+          <Input
+            type="text"
+            label="NICKNAME"
+            {...register("nickname")}
+          />
+
+          <Button type="submit" className="main-button">
+            Join
+          </Button>
+        </form>
+      </div>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export default async function roomFindAllAPI(): Promise<RoomFindAllDto[]> {
   try {
-    const response = await axios.get(`http://localhost:8080/rooms`, {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_CHAT_SERVER}/api/v1/rooms`, {
       headers: {
         'Authorization': localStorage.getItem('jwt')
       }

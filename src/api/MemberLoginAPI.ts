@@ -11,7 +11,8 @@ export default async function memberLoginAPI(data: MemberLoginDto) {
   }
 
   try {
-    const response = await axios.post('http://localhost:8080/login', formData, {
+    console.log(`${process.env.NEXT_PUBLIC_AUTH_SERVER}`)
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_AUTH_SERVER}/api/v1/login`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
