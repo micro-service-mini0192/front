@@ -97,6 +97,10 @@ input {
   border-radius: 12px;
   padding: 16px;
   color: white;
+
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 

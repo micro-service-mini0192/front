@@ -4,10 +4,11 @@ import { useEffect, useState, useRef, RefObject } from 'react';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { useParams } from 'next/navigation';
-import { RoomFindByIdDto } from '@/type/room';
+import { RoomChat, RoomChatFindAllDto, RoomFindByIdDto } from '@/type/room';
 import roomFindByIdAPI from '@/api/RoomfindByIdAPI';
 import { useForm } from "react-hook-form";
 import { Button, Input } from '@nextui-org/react';
+import roomChatFindAllAPI from '@/api/RoomChatfindAllAPI';
 
 type GetMessage = {
   roomId: number;
@@ -28,6 +29,9 @@ export default function RoomFindById() {
   const [messages, setMessages] = useState<GetMessage[]>([]);
   const [error, setError] = useState<string | null>(null);
   const stompClient: RefObject<Client | null> = useRef<Client | null>(null);
+
+  const [page, setPage] = useState(1);
+  const [chats, setChats] = useState<RoomChat[]>([])
 
   const { register, handleSubmit, setValue, reset } = useForm<SendMessage>();
 
@@ -52,6 +56,23 @@ export default function RoomFindById() {
       setLoading(false);
     }
   };
+
+  const getChats = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const dataChat: RoomChatFindAllDto = await roomChatFindAllAPI(id, page);
+      setChats(dataChat.content);
+    } catch (err) {
+      setError('Failed to fetch rooms');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getChats();
+  }, [page])
 
   useEffect(() => {
     const storedJwt = localStorage.getItem('jwt');
@@ -148,6 +169,14 @@ export default function RoomFindById() {
   return (
     <div className="mid">
       <div className="box inline" style={{ width: "500px" }}>
+        {chats.map((message, index) => (
+          <div key={index} className="message">
+          <p className="nickname">{message.member.nickname}</p>
+          <p className="message-content">{message.message}</p>
+          <p className="timestamp">{new Date(message.createAt).toLocaleString()}</p>
+        </div>
+        ))}
+
         {error && <div>{error}</div>}
         {messages.map((message, index) => (
           <div key={index} className="message">
@@ -159,6 +188,7 @@ export default function RoomFindById() {
       </div>
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
+          <h3>Room number: {id}</h3>
           <Input
             style={{ width: "400px" }}
             type="text"

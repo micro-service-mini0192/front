@@ -40,6 +40,7 @@ export default function RoomFindAll() {
             {rooms.map((room) => (
               <li key={room.id} className="findAllRoom-roomItem">
                 <div className="findAllRoom-roomLinkWrapper">
+                  <p>{room.id}</p>
                   <Link href={`/rooms/${room.id}`} className="findAllRoom-roomLink">
                     {room.roomName}
                   </Link>
@@ -52,8 +53,11 @@ export default function RoomFindAll() {
         )}
       </div>
       
-      <Link href={`/saveRooms`} className="button">
+      <Link href={`/rooms/create`} className="button" style={{margin: "5px"}}>
         Create Room
+      </Link>
+      <Link href={`/rooms/join`}className="button" style={{margin: "5px"}}>
+        Join Room
       </Link>
     </div>
   );
