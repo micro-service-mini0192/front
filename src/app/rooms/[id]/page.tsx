@@ -97,9 +97,6 @@ export default function RoomFindById() {
     const connectWebSocket = () => {
       stompClient.current = new Client({
         webSocketFactory: () => socket,
-        connectHeaders: {
-          Authorization: jwt // 여기서 Authorization을 설정
-        },
         onConnect: () => {
           console.log('WebSocket connected');
           stompClient.current?.subscribe(`/topic/${id}`, (message) => {
@@ -143,7 +140,7 @@ export default function RoomFindById() {
         stompClient.current.deactivate();
       }
     };
-  }, [id, jwt]); // id와 jwt가 변경될 때마다 실행
+  }, [id]); // id와 jwt가 변경될 때마다 실행
 
   // 메시지 전송 함수
   const onSubmit = (data: SendMessage) => {
